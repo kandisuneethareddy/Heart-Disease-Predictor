@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Heart Disease Prediction</title>
+
+<style>
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #dbeafe, #bfb6e6, #2980bb);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    background: rgb(209, 184, 216);
+    width: 950px;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+h1 {
+    text-align: center;
+    color: #da2e53;
+    margin-bottom: 20px;
+}
+
+form {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+/* Light colored input boxes */
+input {
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #c7d2fe;
+    background-color: #eef2ff;
+    font-size: 14px;
+}
+
+input:focus {
+    outline: none;
+    border-color: #0c0470;
+    background-color: #ffffff;
+}
+
+button {
+    grid-column: 1 / -1;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #0d468b, #06138b);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+/* Result section at bottom */
+.result-box {
+    margin-top: 25px;
+    padding: 18px;
+    border-radius: 14px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    display: none;
+}
+
+.safe {
+    background-color: #dcfce7;
+    color: #166534;
+    border: 1px solid #86efac;
+}
+
+.danger {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Heart Disease Prediction System</h1>
+
+    <form id="predictionForm">
+        <input id="age" placeholder="Age" required>
+        <input id="sex" placeholder="Sex (1=Male, 0=Female)" required>
+        <input id="cp" placeholder="Chest Pain (0–3)" required>
+
+        <input id="trestbps" placeholder="Resting BP" required>
+        <input id="chol" placeholder="Cholesterol" required>
+        <input id="fbs" placeholder="Fasting Sugar (1/0)" required>
+
+        <input id="restecg" placeholder="Rest ECG (0–2)" required>
+        <input id="thalach" placeholder="Max Heart Rate" required>
+        <input id="exang" placeholder="Exercise Angina (1/0)" required>
+
+        <input id="oldpeak" placeholder="Oldpeak" required>
+        <input id="slope" placeholder="Slope (0–2)" required>
+        <input id="ca" placeholder="Major Vessels (0–3)" required>
+
+        <input id="thal" placeholder="Thal (0–3)" required>
+
+        <button type="submit">Predict</button>
+    </form>
+
+    <!-- Result shown HERE (same page, bottom) -->
+    <div id="result" class="result-box"></div>
+</div>
+
+<script>
+document.getElementById("predictionForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    // Read values
+    const age = parseInt(document.getElementById("age").value);
+    const chol = parseInt(document.getElementById("chol").value);
+    const trestbps = parseInt(document.getElementById("trestbps").value);
+    const exang = parseInt(document.getElementById("exang").value);
+
+    let riskScore = 0;
+
+    // Simple frontend prediction logic
+    if (age > 50) riskScore++;
+    if (chol > 240) riskScore++;
+    if (trestbps > 140) riskScore++;
+    if (exang === 1) riskScore++;
+
+    const resultBox = document.getElementById("result");
+    resultBox.style.display = "block";
+
+    if (riskScore >= 2) {
+        resultBox.className = "result-box danger";
+        resultBox.innerHTML =
+            "⚠️ Prediction Result: The patient MAY have heart disease.<br>Please consult a doctor.";
+    } else {
+        resultBox.className = "result-box safe";
+        resultBox.innerHTML =
+            "✅ Prediction Result: The patient does NOT have heart disease.";
+    }
+});
+</script>
+
+</body>
+</html>
